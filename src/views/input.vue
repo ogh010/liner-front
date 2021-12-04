@@ -29,10 +29,16 @@
                 <span class="label">이용시간</span>
                 <div class="selectBox">
                     <div>
-                        <input id="start" type="time" name="start" class="timeinput">
+                        <select>
+                            <option>00:00</option>
+                        </select>
                     </div>
                     <div>
-                        <input id="end" type="time" name="end" class="timeinput">
+                        <select>
+                            <option>00:00</option>
+                            <option>01:00</option>
+                            <option>02:00</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -93,14 +99,14 @@ export default {
             let reqData = {crc}
             searchPlaceService.searchPlace(reqData)
             .then((res)=>{
-                this.SET_PLACES_NAME(res.places)
-                this.SET_PLACES_BRANDS(res.places[0].brands)
-                console.log(res.places);
+                this.SET_PLACES_NAME(res.brands)
+                this.SET_PLACES_BRANDS(res.brands[0].places)
+                console.log(res.brands[0].name)
             })
         },
         selectEvent(e){
             let idx = e.target.value
-            this.SET_PLACES_BRANDS(this.resPlacename[idx].brands)
+            this.SET_PLACES_BRANDS(this.resPlacename[idx].places)
         }
 
     },

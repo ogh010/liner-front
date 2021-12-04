@@ -3,6 +3,12 @@ export default{
         crc:""
     },
     resPlacename:[],
-    resPlaceBrand:[]
+    resPlaceBrand:[],
+    time:[
+        {
+            title: "00",
+            val: 0
+        },
+    ]
     
 }
