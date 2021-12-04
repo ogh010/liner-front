@@ -1,0 +1,113 @@
+@charset "utf-8";
+
+html{width: 100%;}
+/* ::-webkit-calendar-picker-indicator {
+    display: none;
+} */
+
+.wrap{overflow-x: hidden; width: 100%;}
+
+.header{background-color: #000; width: 100%; height: 60px; position: fixed; left: 0; top: 0; z-index: 9; display: flex; justify-content: space-between; align-items: center;}
+.header .logo{width: 88px; height: 60px; background-image: url('../img/lLOGO.svg'); background-repeat: no-repeat; background-position: center; background-size: contain;} 
+.header .nav {width: 32px; height: 26px; background-image: url('../img/logo.svg'); background-position: center; background-repeat: no-repeat; margin-right: 20px;}
+
+
+.content{width: 100%; margin-top: 60px; height: calc(100vh - 120px); background-color: #fbfbfb;}
+.content .top{background-color: #E4B95D; height: 60px; line-height: 60px; text-align: center;}
+/* input : 신청페이지 */
+.content .input{ padding: 10px; width: 100%; text-align: center; background-color: #fbfbfb; }
+.content .input .inputBox{padding: 10px; box-shadow:0px 5px 20px -17px #333333; background-color: #fff; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;}
+.content .input .inputBox.on{border: 1px solid #E4B95D;}
+.content .input .inputBox .label{display: inline-block; margin-right: 20px; position: relative; width: 20%;}
+.content .input .inputBox .label::after{content: ''; display: inline-block; width: 1px; height: 110%; background-color: rgb(187, 187, 187); position: absolute;
+top:-1px; right: -10px; }
+.content .input .inputBox>div{width: 80%;}
+.content .input .inputBox input{padding:10px; width: 100%;}
+.content .input .inputBox .dateinput{padding:10px 5px;}
+.content .input .inputBox .selectBox{display: flex; justify-content: space-around; align-items:center; text-align: center;}
+.content .input .inputBox .selectBox>div{width: 50%;}
+.content .input .inputBox .account .actSelect{width: 30%;}
+.content .input .inputBox .account .actText{width: 70%;}
+.content .input .inputBox .selectBox select{padding: 10px 5px; width: 100%; }
+.content .input .call>div{position: relative;}
+.content .input .call .ico{display: inline-block; width: 20px; height: 20px; position: absolute; top: 10px; right: 12px;
+background-image: url('../img/verified_user.svg'); background-size: contain; background-repeat: no-repeat;}
+.content .input .ch .ico{background-image: url('../img/check_box.png'); width: 22px; height: 22px;;}
+.content .input .etc{text-align: left; background-color: #fff; margin-bottom: 15px;
+padding: 20px; box-shadow:0px 5px 20px -17px #333333;}
+.content .input .etc .label{display:block; margin-bottom: 20px; position: relative; width: 100%;}
+.content .input .etc .label::after{content: ''; display: inline-block; width: 100%; height: 1px; background-color: rgb(187, 187, 187); position: absolute;
+bottom: -10px; right: 0px; }
+.content .input .etc textarea{width: 100%; padding: 10px;}
+.content .input .btnBox{padding: 20px 0;}
+
+/* confirm : 신청확인페이지 */
+.confirm{padding: 0px; width: 100%; text-align: center; background-color: #fbfbfb;}
+.confirm .confirmBox{padding: 10px;background-color: #ffffff; box-shadow:0px 5px 20px -17px #333333; margin-bottom: 15px; margin: 20px;}
+.confirm .confirmBox table{}
+.confirm .confirmBox table tr{}
+.confirm .confirmBox table th{padding: 10px; text-align: center;}
+.confirm .confirmBox table td{padding: 10px; text-align: right; word-break: break-all;}
+.confirm .agreeBox{text-align: left; margin-bottom: 15px;} 
+.confirm .agreeBox .inner{padding: 10px;background-color: #ffffff; box-shadow:0px 5px 20px -17px #333333;margin: 20px;} 
+.confirm .agreeBox .inner>div{margin-bottom: 8px; position: relative;}
+.confirm .agreeBox .inner>div:last-child{margin-bottom: 0px;}
+.confirm .agreeBox .inner .ch{top: 0; left: 0;}
+.confirm .agreeBox .inner .detail{display: inline-block; font-size: 11px; text-align: right; position: absolute; top: 0; right: 0; text-decoration: underline; color: #535353;}
+input[type="checkbox"]{display:none}
+.confirm input[type="checkbox"] + label span{
+    background-image: url('../img/check_circle_outline.svg');
+    display: inline-block; width: 20px; height: 20px; vertical-align: middle; background-size: cover;
+    }
+.confirm input[type="checkbox"]:checked + label span{
+        background-size:cover;
+        background-image: url('../img/check_circle.svg');
+    }
+.confirm .button{background-color:#E4B95D; padding: 12px 30px;}
+
+/* 메인페이지 */
+.main{padding: 0px; width: 100%; text-align: center;}
+.main .service{width: 100%; height: 358px; background-image: url('../img/service.svg') ; background-size: contain; background-position: center; background-color: #000; background-repeat: no-repeat;}
+.main .btnBox{padding: 0 !important;}
+
+/* 버튼css */
+.content .btn{background-color:#E4B95D; padding: 18px 40px; margin: 0 7px;}
+.content .btnone{background-color:#E4B95D; padding: 20px 0px; width: 100%;}
+.content .btnBox{padding: 0px 0 40px 0;}
+
+
+
+/* 팝업라인 */
+.popupBackground{width: 100%; height: 100vh; position: fixed; top: 0; left: 0; z-index: 99;}
+.popupBackground .dim{background-color: rgba(0, 0, 0, 0.39); width: 100%; height: 100%;}
+.popupBackground .popup{width: 90%; position: fixed; transform: translate(-50%,-50%); top: 50%; left: 50%; background-color: #fff; box-shadow: 0px 3px 18px #000000ea;
+padding: 16px;}
+.popupBackground .popup .pContent{padding: 30px 0; text-align: center; font-size: 15px; line-height: 21px;}
+.popupBackground .popup .pFooter .inner{display: flex; justify-content: center; align-items: center;}
+.popupBackground .popup .pFooter .inner .btn{padding: 8px 20px; background-color: #E4B95D; width:60%; font-size: 18px;}
+
+
+
+.footer{background-color: #fbfbfb; position: fixed; bottom: 0; left: 0; height: 60px; width: 100%;}
+.footer .inner{padding: 5px 20px;}
+.footer .fl{text-align: right;}
+.footer span{content: ''; display: block; width: 100%; height: 1px; background-color: #000; margin: 5px 0;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
