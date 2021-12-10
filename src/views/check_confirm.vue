@@ -81,7 +81,7 @@ export default {
     components:{banner},
     methods: {
         move(){
-            this.$router.push('/')
+            this.$router.push('/mb')
         },
         
     },

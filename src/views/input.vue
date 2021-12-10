@@ -123,7 +123,7 @@ export default {
                 lineService.line(reqData)
                 .then((res)=>{
                     console.log(res)
-                    this.$router.push('input/confirm')
+                    this.$router.push('/mb/input/confirm')
                 })
             }
             else{

@@ -94,7 +94,7 @@ export default {
             workerService.worker(reqData)
             .then((res)=>{
                 console.log(res);
-                this.$router.push('/winput/confirm')
+                this.$router.push('/mb/winput/confirm')
                 this.SET_AUTH_CODE(res.authCode)
             })
         },

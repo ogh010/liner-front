@@ -114,7 +114,7 @@ export default {
         async move(){
             await this.serviceBtn()
             if(this.allChecked == true){
-                await this.$router.push('/input/confirm/agree')
+                await this.$router.push('/mb/input/confirm/agree')
             }
             else{
                 this.is_show = true

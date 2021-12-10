@@ -1,4 +1,5 @@
 module.exports = {
+    publicPath: '/line',
     devServer:{        
         proxy:{
             '/be':{

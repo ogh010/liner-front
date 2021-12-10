@@ -32,7 +32,7 @@ export default {
             this.is_show =! this.is_show
         },
         moveInput(){
-            this.$router.push('input')
+            this.$router.push('/mb/input')
         }
     }
 }

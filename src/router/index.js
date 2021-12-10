@@ -5,42 +5,42 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path:'/',
+    path:'/mb',
     name:'main',
     component:()=>import('../views/main.vue')
   },
   {
-    path:'/input',
+    path:'/mb/input',
     name:'input',
     component:()=>import('../views/input.vue'),
   },
   {
-    path:'/input/confirm',
+    path:'/mb/input/confirm',
     name:'input_confirm',
     component:()=>import('../views/input_confirm.vue')
   },
   {
-    path:'/input/confirm/agree',
+    path:'/mb/input/confirm/agree',
     name:'input_confirm_agree',
     component:()=>import('../views/input_confirm_agree.vue')
   },
   {
-    path:'/check',
+    path:'/mb/check',
     name:'check',
     component:()=>import('../views/check_order_number.vue'),
   },
   {
-    path:'/check/confirm',
+    path:'/mb/check/confirm',
     name:'check_confirm',
     component:()=>import('../views/check_confirm.vue')
   },
   {
-    path:'/winput',
+    path:'/mb/winput',
     name:'winput',
     component:()=>import('../views/waiting_input.vue')
   },
   {
-    path:'/winput/confirm',
+    path:'/mb/winput/confirm',
     name:'winput_confirm',
     component:()=>import('../views/waiting_input_confirm.vue')
   },
@@ -50,7 +50,7 @@ const routes = [
 
 const router = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
+  base: '/line',
   routes
 })
 
