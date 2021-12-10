@@ -88,9 +88,6 @@ export default {
     computed: {
         ...mapState('main',['brandName','brandPlace','orderCode'])
     },
-    mounted () {
-        console.log(this.$route.params);
-    },
 }
 </script>
 <style scoped>

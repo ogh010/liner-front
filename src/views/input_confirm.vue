@@ -45,7 +45,7 @@
                                 <p>연락처</p>
                             </th>
                             <td>
-                                <p>{{order.phone}}</p>
+                                <p>{{phoneNumber(order.phone)}}</p>
                             </td>
                         </tr>
                         <tr>
@@ -53,7 +53,8 @@
                                 <p>기타사항</p>
                             </th>
                             <td>
-                                <p>{{order.desc}}</p>
+                                <p v-if="order.desc == ''">기타사항없음</p>
+                                <p v-else>{{order.desc}}</p>
                             </td>
                         </tr>
                     </table>
@@ -113,7 +114,7 @@ export default {
         },
         async move(){
             await this.serviceBtn()
-            if(this.allChecked == true){
+            if(this.allChecked == true || this.ch1 ==true && this.ch2 ==true && this.ch3 ==true){
                 await this.$router.push('/mb/input/confirm/agree')
             }
             else{
@@ -132,19 +133,25 @@ export default {
             let desc = this.order.desc
             let order = {serviceTime,brand,place,beginTime,endTime,name,phone,desc}
             let reqData = {crc,order}
-            console.log(reqData)
             lineService.line(reqData)
             .then((res)=>{
-                console.log(res)
                 this.SET_ORDER_CODE(res.orderCode)
             })
         },
         popupEvent(){
             this.is_show=false
-        }
+        },
+        phoneNumber(value){
+			value = value.replace(/[^0-9]/g, "");
+			return value.replace(
+				/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,
+				"$1-$2-$3"
+			);
+		},
     },
     computed: {
-        ...mapState('main',['reqData','order','brandName','brandPlace'])
+        ...mapState('main',['reqData','order','brandName','brandPlace']),
+        
     },
 }
 </script>

@@ -21,6 +21,8 @@ html{width: 100%;}
 .content .input .inputBox .label{display: inline-block; margin-right: 20px; position: relative; width: 20%;}
 .content .input .inputBox .label::after{content: ''; display: inline-block; width: 1px; height: 110%; background-color: rgb(187, 187, 187); position: absolute;
 top:-1px; right: -10px; }
+input{background-color: #fff;}
+select{background-color: #fff;}
 .content .input .inputBox>div{width: 80%;}
 .content .input .inputBox input{padding:10px; width: 100%;}
 .content .input .inputBox .dateinput{padding:10px 5px;}
@@ -31,7 +33,7 @@ top:-1px; right: -10px; }
 .content .input .inputBox .selectBox select{padding: 10px 5px; width: 100%; }
 .content .input .call>div{position: relative;}
 .content .input .call .ico{display: inline-block; width: 20px; height: 20px; position: absolute; top: 10px; right: 12px;
-background-image: url('../img/verified_user.svg'); background-size: contain; background-repeat: no-repeat;}
+background-image: url('../img/verified_user.svg'); background-size: contain; background-repeat: no-repeat; opacity: 0.5;}
 .content .input .ch .ico{background-image: url('../img/check_box.png'); width: 22px; height: 22px;;}
 .content .input .etc{text-align: left; background-color: #fff; margin-bottom: 15px;
 padding: 20px; box-shadow:0px 5px 20px -17px #333333;}
@@ -40,7 +42,8 @@ padding: 20px; box-shadow:0px 5px 20px -17px #333333;}
 bottom: -10px; right: 0px; }
 .content .input .etc textarea{width: 100%; padding: 10px;}
 .content .input .btnBox{padding: 20px 0;}
-
+.content .input .call .ico.on{opacity: 1 !important;}
+.content .input .ch .ico.on{opacity: 1 !important;}
 
 .content .input .inputBox.disabled{background-color: #efefefb0; box-shadow:0px 5px 20px -17px #fbfbfb;}
 .content .input .inputBox.disabled input:disabled{background-color: #efefefb0;}

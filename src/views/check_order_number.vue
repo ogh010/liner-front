@@ -7,7 +7,7 @@
                 <div class="inputBox">
                     <span class="label">주문번호</span>
                     <div>
-                        <input type="text" v-model="orderNumber">
+                        <input type="number" v-model="orderNumber" pattern="[0-9]">
                     </div>
                 </div>
                 <div class="btnBox">
@@ -40,7 +40,6 @@ export default {
                 this.is_show = true
                 return
             }
-            console.log(this.orderNumber);
             axios.get(`/be/v1/mb/check/line/service/${this.orderNumber}`)
             .then((res)=>{
                 console.log(res);
@@ -55,7 +54,7 @@ export default {
             
         },
         move(){
-            history.back(-1)
+            this.$router.push({name:'main'})
         },
         popupEvent(){
             this.is_show = false

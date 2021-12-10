@@ -61,7 +61,8 @@
                             <p>기타사항</p>
                         </th>
                         <td>
-                            <p>{{order.desc}}</p>
+                            <p v-if="order.desc == ''">기타사항없음</p>
+                            <p v-else>{{order.desc}}</p>
                         </td>
                     </tr>
                 </table>

@@ -26,5 +26,6 @@ export default{
     },
     SET_BANK_NAME(state,bankName){
         state.bankName = bankName
-    }
+    },
+    
 }

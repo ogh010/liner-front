@@ -7,17 +7,18 @@
                 <div class="inputBox" v-bind:class="{'on':this.active == true}">
                     <span class="label">이름</span>
                     <div>
-                        <input type="text" placeholder="이름을 입력해주세요" v-model="worker.name" @focus="focus()" @blur="blur()">
+                        <input type="text" placeholder="이름을 입력해주세요" v-model="name" @focus="focus()" @blur="blur()">
                     </div>
                 </div>
                 <div class="inputBox call">
                     <span class="label">연락처</span>
                     <div>
-                        <input type="tel" placeholder="연락처를 입력해주세요" v-model="worker.phone">
-                        <span class="ico"></span>
+                        <input type="text" v-model="phone" pattern="[0-9]{11}" maxlength="11" oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');"
+                        placeholder="-를 제외하고 입력해주세요">
+                        <span class="ico" v-bind:class="{'on':this.phone.length == 11}"></span>
                     </div>
                 </div>
-                <div class="inputBox call ch disabled">
+                <div class="inputBox call ch" v-bind:class="{'disabled':this.worker.phone.length !== 11}">
                     <span class="label">인증번호</span>
                     <div>
                         <input type="number" disabled>
@@ -33,21 +34,24 @@
                             </select>
                         </div>
                         <div class="actText">
-                            <input type="text" placeholder="계좌번호" v-model="bankInfo.account">
+                            <input type="number" placeholder="계좌번호" v-model="account">
                         </div>
                     </div>
                 </div>
                 <div class="inputBox">
                     <span class="label">카톡 ID</span>
                     <div>
-                        <input type="text" placeholder="카톡 ID를 입력해주세요" v-model="worker.kakaoId">
+                        <input type="text" placeholder="카톡 ID를 입력해주세요" v-model="kakaoId">
                     </div>
                 </div>
                 <div class="btnBox">
                     <button type="button" class="btn" @click="cancelBtn">취소</button>
-                    <button type="button" class="btn" @click="submitBtn()">구매 신청</button>
+                    <button type="button" class="btn" @click="submitBtn()">알바 신청</button>
                 </div> 
             </div>
+            <Popup v-show="is_show" @clickEvent="popupEvent">
+                <p slot="popupTxt">폼을 입력해주세요</p>
+            </Popup>
         </div>
 </template>
 <script>
@@ -55,15 +59,21 @@ import banner from '../components/banner.vue'
 import {mapMutations, mapState} from 'vuex'
 import searchBank from '../service/searchBankService'
 import workerService from '../service/workerService'
+import Popup from '../components/popup.vue'
 
 
 export default {
     components:{
-        banner
+        banner,Popup
     },
     data() {
         return {
-            active:false
+            active:false,
+            is_show:false,
+            name:"",
+            phone:"",
+            account:"",
+            kakaoId:"",
         }
     },
     methods: {
@@ -78,9 +88,16 @@ export default {
             })
         },
         cancelBtn(){
-            history.back(-1)
+            this.$router.push({'name':'main'})
+        },
+        inputData(){
+            this.worker.name = this.name
+            this.worker.phone = this.phone
+            this.worker.account = this.account
+            this.worker.kakaoId = this.kakaoId
         },
         submitBtn(){
+            this.inputData()
             let crc = this.reqData.crc
             let name = this.worker.name
             let phone = this.worker.phone
@@ -90,20 +107,26 @@ export default {
             let worker = {name,phone,kakaoId}
             let bankInfo = {bank,account}
             let reqData = {crc,worker,bankInfo}
-            console.log(reqData);
-            workerService.worker(reqData)
-            .then((res)=>{
-                console.log(res);
-                this.$router.push('/mb/winput/confirm')
-                this.SET_AUTH_CODE(res.authCode)
-            })
+            
+            if(this.name !== "" && this.phone !== "" && this.account !== "" && this.kakaoId !== ""){
+                workerService.worker(reqData)
+                .then((res)=>{
+                    this.$router.push('/mb/winput/confirm')
+                    this.SET_AUTH_CODE(res.authCode)
+                })
+            }
+            else{
+                this.is_show = true
+            }
         },
         selectBank(e){
-            console.log(e.target.value);
             this.SET_BANK_NAME(e.target.value)
         },
         focus(){this.active = true},
-        blur(){this.active = false}
+        blur(){this.active = false},
+        popupEvent(){
+            this.is_show=false
+        }
     },
     mounted () {
         this.searchBank()
