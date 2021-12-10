@@ -27,7 +27,12 @@ const routes = [
   {
     path:'/check',
     name:'check',
-    component:()=>import('../views/check_order_number.vue')
+    component:()=>import('../views/check_order_number.vue'),
+  },
+  {
+    path:'/check/confirm',
+    name:'check_confirm',
+    component:()=>import('../views/check_confirm.vue')
   },
   {
     path:'/winput',
@@ -38,7 +43,8 @@ const routes = [
     path:'/winput/confirm',
     name:'winput_confirm',
     component:()=>import('../views/waiting_input_confirm.vue')
-  }
+  },
+  
   
 ]
 

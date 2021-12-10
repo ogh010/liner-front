@@ -24,7 +24,7 @@ top:-1px; right: -10px; }
 .content .input .inputBox>div{width: 80%;}
 .content .input .inputBox input{padding:10px; width: 100%;}
 .content .input .inputBox .dateinput{padding:10px 5px;}
-.content .input .inputBox .selectBox{display: flex; justify-content: space-around; align-items:center; text-align: center;}
+.content .input .inputBox .selectBox{display: flex; justify-content: space-between; align-items:center; text-align: center;}
 .content .input .inputBox .selectBox>div{width: 50%;}
 .content .input .inputBox .account .actSelect{width: 30%;}
 .content .input .inputBox .account .actText{width: 70%;}
@@ -41,13 +41,23 @@ bottom: -10px; right: 0px; }
 .content .input .etc textarea{width: 100%; padding: 10px;}
 .content .input .btnBox{padding: 20px 0;}
 
+
+.content .input .inputBox.disabled{background-color: #efefefb0; box-shadow:0px 5px 20px -17px #fbfbfb;}
+.content .input .inputBox.disabled input:disabled{background-color: #efefefb0;}
+.content .input .inputBox.disabled .label{color: rgb(197, 197, 197);}
+.content .input .inputBox.disabled .ico{opacity: 0.5;}
+
+.content .input .time .txt{font-size: 10px; text-align: center; display:block; text-indent: 0rem;}
+
 /* confirm : 신청확인페이지 */
 .confirm{padding: 0px; width: 100%; text-align: center; background-color: #fbfbfb;}
 .confirm .confirmBox{padding: 10px;background-color: #ffffff; box-shadow:0px 5px 20px -17px #333333; margin-bottom: 15px; margin: 20px;}
 .confirm .confirmBox table{}
-.confirm .confirmBox table tr{}
-.confirm .confirmBox table th{padding: 10px; text-align: center;}
-.confirm .confirmBox table td{padding: 10px; text-align: right; word-break: break-all;}
+.confirm .confirmBox table tr{width: 100%;}
+.confirm .confirmBox table th{padding: 10px; text-align: center; width:30%;}
+.confirm .confirmBox table td{padding: 10px; text-align: right; word-break: break-all; width: 70%;}
+.confirm .confirmBox table td span{display: inline-block; ;}
+.confirm .confirmBox table td span:first-child{margin-right: 3px;}
 .confirm .agreeBox{text-align: left; margin-bottom: 15px;} 
 .confirm .agreeBox .inner{padding: 10px;background-color: #ffffff; box-shadow:0px 5px 20px -17px #333333;margin: 20px;} 
 .confirm .agreeBox .inner>div{margin-bottom: 8px; position: relative;}
@@ -72,6 +82,8 @@ input[type="checkbox"]{display:none}
 
 /* 버튼css */
 .content .btn{background-color:#E4B95D; padding: 18px 40px; margin: 0 7px;}
+.content .btn:active{background-color:#000; color: #E4B95D;}
+.content .btnone:active{background-color:#000; color: #E4B95D;}
 .content .btnone{background-color:#E4B95D; padding: 20px 0px; width: 100%;}
 .content .btnBox{padding: 0px 0 40px 0;}
 
@@ -80,7 +92,7 @@ input[type="checkbox"]{display:none}
 /* 팝업라인 */
 .popupBackground{width: 100%; height: 100vh; position: fixed; top: 0; left: 0; z-index: 99;}
 .popupBackground .dim{background-color: rgba(0, 0, 0, 0.39); width: 100%; height: 100%;}
-.popupBackground .popup{width: 90%; position: fixed; transform: translate(-50%,-50%); top: 50%; left: 50%; background-color: #fff; box-shadow: 0px 3px 18px #000000ea;
+.popupBackground .popup{width: 90%; position: fixed; transform: translate(-50%,-50%); top: 50%; left: 50%; background-color: #fff; box-shadow: 0px 3px 18px #777;
 padding: 16px;}
 .popupBackground .popup .pContent{padding: 30px 0; text-align: center; font-size: 15px; line-height: 21px;}
 .popupBackground .popup .pFooter .inner{display: flex; justify-content: center; align-items: center;}
@@ -93,12 +105,15 @@ padding: 16px;}
 .footer .fl{text-align: right;}
 .footer span{content: ''; display: block; width: 100%; height: 1px; background-color: #000; margin: 5px 0;}
 
-
-
-
-
-
-
+/* datepicker */
+.vue__time-picker{width: 100% !important;}
+.display-time{width: 100% !important; text-align: center;}
+.vue__time-picker .dropdown ul li:not([disabled]).active, .vue__time-picker .dropdown ul li:not([disabled]).active:hover, .vue__time-picker .dropdown ul li:not([disabled]).active:focus, .vue__time-picker-dropdown ul li:not([disabled]).active, .vue__time-picker-dropdown ul li:not([disabled]).active:hover, .vue__time-picker-dropdown ul li:not([disabled]).active:focus{background:#E4B95D !important ;}
+.dropdown{width: 100% !important;}
+.select-list{width: 100% !important;}
+.minutes{display: none;}
+.minutes li:nth-child(2).active{}
+.vue__time-picker input.display-time{border-color:transparent !important; outline-color:transparent !important; border-top: 1px solid #ffde98 !important;}
 
 
 

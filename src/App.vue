@@ -12,7 +12,8 @@ import Header from '../src/layout/header.vue'
 import Footer from '../src/layout/footer.vue'
 
 export default {
-  components:{ Header,Footer }
+  components:{ Header,Footer },
+  
 }
 </script>
 <style>

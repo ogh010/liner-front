@@ -11,7 +11,7 @@
                                 <p>신청일</p>
                             </th>
                             <td>
-                                <p>2021-11-30</p>
+                                <p>{{order.serviceTime}}</p>
                             </td>
                         </tr>
                         <tr>
@@ -19,7 +19,8 @@
                                 <p>장소</p>
                             </th>
                             <td>
-                                <p>강남점 신세계백화점 샤넬</p>
+                                <span>{{brandName}}</span>
+                                <span>{{brandPlace}}</span>
                             </td>
                         </tr>
                         <tr>
@@ -27,7 +28,8 @@
                                 <p>이용시간</p>
                             </th>
                             <td>
-                                <p>16:00 ~ 20:00</p>
+                                <span>{{order.beginTime}}</span>~ 
+                                <span>{{order.endTime}}</span>
                             </td>
                         </tr>
                         <tr>
@@ -35,7 +37,7 @@
                                 <p>이름</p>
                             </th>
                             <td>
-                                <p>오가희</p>
+                                <p>{{order.name}}</p>
                             </td>
                         </tr>
                         <tr>
@@ -43,7 +45,7 @@
                                 <p>연락처</p>
                             </th>
                             <td>
-                                <p>010-9224-5158</p>
+                                <p>{{order.phone}}</p>
                             </td>
                         </tr>
                         <tr>
@@ -51,7 +53,7 @@
                                 <p>기타사항</p>
                             </th>
                             <td>
-                                <p>기타사항기타사항기타사항기타사항기타사항기타사항</p>
+                                <p>{{order.desc}}</p>
                             </td>
                         </tr>
                     </table>
@@ -79,30 +81,70 @@
                 <div class="btnBox">
                     <button type="button" class="btnone" @click="move">서비스 이용 신청하기</button>
                 </div>
+                <Popup @clickEvent="popupEvent()" v-show="is_show">
+                    <p slot="popupTxt">이용약관에 동의해주세요</p>
+                </Popup>
             </div>
         </div>
 </template>
 <script>
+import { mapMutations, mapState } from 'vuex'
 import banner from '../components/banner.vue'
+import lineService from '../service/lineService'
+import Popup from '../components/popup.vue'
+
 export default {
-    components:{banner},
+    components:{banner,Popup},
     data() {
         return {
             allChecked:false,
             ch1:false,
             ch2:false,
             ch3:false,
+            is_show:false
         }
     },
     methods: {
+        ...mapMutations('main',['SET_ORDER_CODE']),
         checkall(){
             this.ch1 =! this.allChecked
             this.ch2 =! this.allChecked
             this.ch3 =! this.allChecked
         },
-        move(){
-            this.$router.push('/input/confirm/agree')
+        async move(){
+            await this.serviceBtn()
+            if(this.allChecked == true){
+                await this.$router.push('/input/confirm/agree')
+            }
+            else{
+                this.is_show = true
+            }
+        },
+        serviceBtn(){
+            let crc = this.reqData.crc
+            let serviceTime = this.order.serviceTime
+            let brand = this.brandName
+            let place = this.brandPlace
+            let beginTime = this.order.beginTime
+            let endTime = this.order.endTime
+            let name = this.order.name
+            let phone = this.order.phone
+            let desc = this.order.desc
+            let order = {serviceTime,brand,place,beginTime,endTime,name,phone,desc}
+            let reqData = {crc,order}
+            console.log(reqData)
+            lineService.line(reqData)
+            .then((res)=>{
+                console.log(res)
+                this.SET_ORDER_CODE(res.orderCode)
+            })
+        },
+        popupEvent(){
+            this.is_show=false
         }
+    },
+    computed: {
+        ...mapState('main',['reqData','order','brandName','brandPlace'])
     },
 }
 </script>

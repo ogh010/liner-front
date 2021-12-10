@@ -1,7 +1,7 @@
 <template>
     <div class="footer">
         <div class="inner">
-            <p class="fl">💼 알바 신청</p>
+            <p class="fl" @click="move()">💼 알바 신청</p>
             <span></span>
             <p class="fr">LINE UP FOR YOU</p>
         </div>
@@ -9,7 +9,11 @@
 </template>
 <script>
 export default {
-    
+    methods: {
+        move() {
+            this.$router.push('/winput')
+        }
+    },
 }
 </script>
 <style scoped>

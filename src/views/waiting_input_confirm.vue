@@ -11,7 +11,7 @@
                                 <p>이름</p>
                             </th>
                             <td>
-                                <p>오가희</p>
+                                <p>{{worker.name}}</p>
                             </td>
                         </tr>
                         <tr>
@@ -19,7 +19,7 @@
                                 <p>연락처</p>
                             </th>
                             <td>
-                                <p>010-9224-5158</p>
+                                <p>{{worker.phone}}</p>
                             </td>
                         </tr>
                         <tr>
@@ -27,7 +27,8 @@
                                 <p>계좌번호</p>
                             </th>
                             <td>
-                                <p>(국민)282402-1234-1234223</p>
+                                <span>({{bankName}})</span>
+                                <span>{{bankInfo.account}}</span>
                             </td>
                         </tr>
                         <tr>
@@ -35,7 +36,7 @@
                                 <p>카톡ID</p>
                             </th>
                             <td>
-                                <p>카톡ID</p>
+                                <p>{{worker.kakaoId}}</p>
                             </td>
                         </tr>
                         <tr>
@@ -43,7 +44,7 @@
                                 <p>인증번호</p>
                             </th>
                             <td>
-                                <p>SF13ZSDR231AFASAD</p>
+                                <p>{{authCode}}</p>
                             </td>
                         </tr>
                     </table>
@@ -55,7 +56,10 @@
         </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 import banner from '../components/banner.vue'
+
+
 export default {
     components: { banner },
     methods: {
@@ -63,7 +67,9 @@ export default {
             this.$router.push('/')
         }
     },
-    
+    computed: {
+        ...mapState('main',['worker','bankInfo','authCode','bankName'])
+    },
 }
 </script>
 <style scoped>

@@ -11,7 +11,7 @@
                             <p>주문번호</p>
                         </th>
                         <td>
-                            <p>{{orderCode}}</p>
+                            <p>{{$route.params.order.orderCode}}</p>
                         </td>
                     </tr>
                     <tr>
@@ -19,7 +19,7 @@
                             <p>신청일</p>
                         </th>
                         <td>
-                            <p>{{order.serviceTime}}</p>
+                            <p>{{$route.params.order.orderTime}}</p>
                         </td>
                     </tr>
                     <tr>
@@ -27,8 +27,7 @@
                             <p>장소</p>
                         </th>
                         <td>
-                            <span>{{brandName}}</span>
-                            <span>{{brandPlace}}</span>
+                            <p>{{$route.params.order.place}}</p>
                         </td>
                     </tr>
                     <tr>
@@ -36,8 +35,8 @@
                             <p>이용시간</p>
                         </th>
                         <td>
-                            <span>{{order.beginTime}}</span>~
-                            <span>{{order.endTime}}</span>
+                            <span>{{$route.params.order.beginTime}}</span>~
+                            <span>{{$route.params.order.endTime}}</span>
                         </td>
                     </tr>
                     <tr>
@@ -45,7 +44,7 @@
                             <p>이름</p>
                         </th>
                         <td>
-                            <p>{{order.name}}</p>
+                            <p>{{$route.params.order.name}}</p>
                         </td>
                     </tr>
                     <tr>
@@ -53,7 +52,7 @@
                             <p>연락처</p>
                         </th>
                         <td>
-                            <p>{{order.phone}}</p>
+                            <p>{{$route.params.order.phone}}</p>
                         </td>
                     </tr>
                     <tr>
@@ -61,7 +60,7 @@
                             <p>기타사항</p>
                         </th>
                         <td>
-                            <p>{{order.desc}}</p>
+                            <p>{{$route.params.order.desc}}</p>
                         </td>
                     </tr>
                 </table>
@@ -87,7 +86,10 @@ export default {
         
     },
     computed: {
-        ...mapState('main',['order','brandName','brandPlace','orderCode'])
+        ...mapState('main',['brandName','brandPlace','orderCode'])
+    },
+    mounted () {
+        console.log(this.$route.params);
     },
 }
 </script>
