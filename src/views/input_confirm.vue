@@ -62,19 +62,11 @@
                 <div class="agreeBox">
                     <div class="inner">
                         <div>
-                            <input type="checkbox" id="checkall" class="ch" v-model="allChecked" @click="checkall()"/><label for="checkall"><span></span>전체 약관동의하기</label>
+                            <input type="checkbox" id="checkall" class="ch" v-model="allChecked" @click="checkall()"/><label for="checkall"><span></span> 전체 약관동의하기</label>
                             <span class="detail">상세보기</span>
                         </div>
-                        <div>
-                            <input type="checkbox" name="chk" class="ch" id="ch1" v-model="ch1"/><label for="ch1"><span></span>[필수] 개인정보 수집 및 이용동의</label>
-                            <span class="detail">상세보기</span>
-                        </div>
-                        <div>
-                            <input type="checkbox" name="chk" class="ch" id="ch2" v-model="ch2"/><label for="ch2"><span></span>[필수] 개인정보 수집 및 이용동의</label>
-                            <span class="detail">상세보기</span>
-                        </div>
-                        <div>
-                            <input type="checkbox" name="chk" class="ch" id="ch3" v-model="ch3"/><label for="ch3"><span></span>[필수] 개인정보 수집 및 이용동의</label>
+                        <div v-for="(item,index) in ch" :key="index">
+                            <input type="checkbox" name="chk" class="ch" :id="item.name" v-model="item.status" @click="clickCh()" /><label :for="item.name"><span></span>{{item.title}}</label>
                             <span class="detail">상세보기</span>
                         </div>
                     </div>
@@ -99,22 +91,40 @@ export default {
     data() {
         return {
             allChecked:false,
-            ch1:false,
-            ch2:false,
-            ch3:false,
-            is_show:false
+            is_show:false,
+            ch:[
+                {
+                    name:"ch1",
+                    status:false,
+                    title:" [1] 개인정보 수집 및 이용동의"
+                },
+                {
+                    name:"ch2",
+                    status:false,
+                    title:" [2] 개인정보 수집 및 이용동의"
+                },
+                {
+                    name:"ch3",
+                    status:false,
+                    title:" [3] 개인정보 수집 및 이용동의"
+                }
+            ]
         }
     },
     methods: {
         ...mapMutations('main',['SET_ORDER_CODE']),
         checkall(){
-            this.ch1 =! this.allChecked
-            this.ch2 =! this.allChecked
-            this.ch3 =! this.allChecked
+            this.ch[0].status =! this.allChecked
+            this.ch[1].status =! this.allChecked
+            this.ch[2].status =! this.allChecked
+            console.log(this.allChecked);
+        },
+        clickCh(){
+            console.log(this.ch[0].status , this.ch[1].status , this.ch[2].status )
         },
         async move(){
-            await this.serviceBtn()
             if(this.allChecked == true || this.ch1 ==true && this.ch2 ==true && this.ch3 ==true){
+                await this.serviceBtn()
                 await this.$router.push('/mb/input/confirm/agree')
             }
             else{
@@ -156,5 +166,4 @@ export default {
 }
 </script>
 <style scoped>
-
 </style>

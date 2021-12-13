@@ -80,7 +80,8 @@
             </div>
         </div>
         <Popup v-show="is_show" @clickEvent="popupEvent()">
-            <p slot="popupTxt">모두 입력해주세요</p>
+            <p slot="popupTxt" v-show="timePopup">신청일을 입력해주세요</p>
+            <p slot="popupTxt" v-show="inputPopup">모두 입력해주세요</p>
         </Popup>
     </div>
 </template>
@@ -88,7 +89,6 @@
 import { mapMutations, mapState} from 'vuex'
 import banner from '../components/banner.vue'
 import searchPlaceService from '../service/searchPlaceService'
-import lineService from '../service/lineService'
 import VueTimepicker from 'vue2-timepicker/src/vue-timepicker.vue'
 import Popup from '../components/popup.vue'
 
@@ -104,6 +104,8 @@ export default {
             name:"",
             phone:"",
             desc:"",
+            timePopup:false,
+            inputPopup:false,
         }
     },
     methods: {
@@ -134,16 +136,17 @@ export default {
             let desc = this.order.desc
             let order = {serviceTime,brand,place,beginTime,endTime,name,phone,desc}
             let reqData = {crc,order}
-
-            if(this.order.name !== "" && this.order.phone !== "" && this.order.phone.length == 11){
-                lineService.line(reqData)
-                .then((res)=>{
-                    console.log(res)
-                    this.$router.push('/mb/input/confirm')
-                })
+            console.log(reqData)
+            if(this.order.serviceTime == ""){
+                this.is_show=true
+                this.timePopup = true
+            }
+            else if(this.order.name !== "" && this.order.phone !== "" && this.order.phone.length == 11){
+                this.$router.push('/mb/input/confirm')
             }
             else{
                 this.is_show=true
+                this.inputPopup = true
             }
         },
         searchPlace(){
