@@ -7,20 +7,20 @@
             <div class="inputBox">
                 <span class="label" >신청일</span>
                 <div>
-                    <input type="date" class="dateinput" v-model="serviceTime">
+                    <input type="date" class="dateinput" v-model="reqData.order.serviceTime">
                 </div>
             </div>
             <div class="inputBox">
                 <span class="label">장소</span>
                 <div class="selectBox">
                     <div>
-                        <select name="choice" @change="selectEvent($event)">
-                            <option v-for="(brand,index) in resPlacename" :key="index" :value="(index)">{{brand.name}}</option>
+                        <select name="choice" @change="changePlaces($event)" >
+                            <option v-for="(brand, index) in getBrands" :key="index" :value="index">{{brand.name}}</option>
                         </select>
                     </div>
                     <div>
-                        <select name="choice">
-                            <option v-for="(place,index) in resPlaceBrand" :key="index">{{place.name}}</option>
+                        <select name="choice" v-model="reqData.order.place">
+                            <option v-for="(place, index) in places" :key="index" :value="place.name" >{{place.name}}</option>
                         </select>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                         <vue-timepicker 
                         hide-disabled-minutes 
                         hide-clear-button 
-                        v-model="beginTime" 
+                        v-model="reqData.order.beginTime" 
                         placeholder="시작시간"
                         ></vue-timepicker>
                     </div>
@@ -42,7 +42,7 @@
                         <vue-timepicker 
                         hide-disabled-minutes 
                         hide-clear-button 
-                        v-model="endTime"
+                        v-model="reqData.order.endTime"
                         placeholder="종료시간"></vue-timepicker>
                     </div>
                 </div>
@@ -50,136 +50,111 @@
             <div class="inputBox">
                 <span class="label">이름</span>
                 <div>
-                    <input type="text" v-model="name" placeholder="이름을 입력해주세요">
+                    <input type="text" v-model="reqData.order.name" placeholder="이름을 입력해주세요">
                 </div>
             </div>
             <div class="inputBox call">
                 <span class="label">연락처</span>
                 <div>
-                    <input type="text" v-model="phone" pattern="[0-9]{11}" maxlength="11" oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');"
-                    placeholder="-를 제외하고 입력해주세요">
-                    <span class="ico" v-bind:class="{'on':this.phone.length == 11}"></span>
+                    <input type="text" v-model="reqData.order.phone" placeholder="-를 제외하고 입력해주세요">
+                    <!-- <span class="ico" v-bind:class="{'on':this.phone.length == 11}"></span> -->
                 </div>
             </div>
-            <div class="inputBox call ch " v-bind:class="{'disabled':this.phone.length !== 11}">
+            <!-- <div class="inputBox call ch " v-bind:class="{'disabled':this.phone.length !== 11}">
                 <span class="label">인증번호</span>
                 <div>
                     <input type="number" :disabled="{'disabled':this.phone.length !== 11}">
                     <span class="ico"></span>
                 </div>
-            </div>
+            </div> -->
             <div class="etc">
                 <span class="label">기타사항 </span>
                 <div>
-                    <textarea name="etc" rows="3" cols="33" placeholder="기타 사항을 입력해주세요" v-model="desc"></textarea>
+                    <textarea name="etc" rows="3" cols="33" placeholder="기타 사항을 입력해주세요" v-model="reqData.order.desc"></textarea>
                 </div>
             </div>
             <div class="btnBox">
-                <button type="button" class="btn" @click="back()">취소</button>
+                <button type="button" class="btn" @click="moveMain()">취소</button>
                 <button type="button" class="btn" @click="move()">구매 신청</button>
             </div>
         </div>
         <Popup v-show="is_show" @clickEvent="popupEvent()">
-            <p slot="popupTxt" v-show="timePopup">신청일을 입력해주세요</p>
-            <p slot="popupTxt" v-show="inputPopup">모두 입력해주세요</p>
+            <p slot="popupTxt" v-if="timePopup">신청일을 입력해주세요</p>
+            <p slot="popupTxt" v-if="inputPopup">모두 입력해주세요</p>
         </Popup>
     </div>
 </template>
 <script>
-import { mapMutations, mapState} from 'vuex'
+import { mapMutations, mapGetters} from 'vuex'
 import banner from '../components/banner.vue'
 import searchPlaceService from '../service/searchPlaceService'
 import VueTimepicker from 'vue2-timepicker/src/vue-timepicker.vue'
 import Popup from '../components/popup.vue'
 
 export default {
-    components:{banner,VueTimepicker,Popup},
+    components:{ banner, VueTimepicker, Popup},
     data() {
         return {
             disableFlag:true,
             is_show:false,
-            serviceTime:new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate(),
-            beginTime:'00:00',
-            endTime:'00:00',
-            name:"",
-            phone:"",
-            desc:"",
             timePopup:false,
             inputPopup:false,
+            places: [],
+            reqData: {
+                order : {
+                    serviceTime: new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate(), // 서비스 신청일 
+                    brand: '',
+                    place: '',
+                    beginTime:'18:00',
+                    endTime:'00:00',
+                    name:"",
+                    phone:"",
+                    desc:"",
+                }
+            },
         }
     },
-    methods: {
-        ...mapMutations('main',['SET_PLACES_NAME','SET_PLACES_BRANDS','SET_BRANDS_NAME','SET_BRANS_PLACE',]),
-        back(){
-            this.$router.push({name:'main'})
-        },
-        inputData(){
-            this.order.serviceTime = this.serviceTime 
-            this.order.brand = this.brand 
-            this.order.place = this.place 
-            this.order.beginTime = this.beginTime 
-            this.order.endTime = this.endTime 
-            this.order.name = this.name 
-            this.order.phone = this.phone 
-            this.order.desc = this.desc 
-        },
-        move(){
-            this.inputData()
-            let crc = this.reqData.crc
-            let serviceTime = this.order.serviceTime
-            let brand = this.brandName
-            let place = this.brandPlace
-            let beginTime = this.order.beginTime
-            let endTime = this.order.endTime
-            let name = this.order.name
-            let phone = this.order.phone
-            let desc = this.order.desc
-            let order = {serviceTime,brand,place,beginTime,endTime,name,phone,desc}
-            let reqData = {crc,order}
-            console.log(reqData)
-            if(this.order.serviceTime == ""){
-                this.is_show=true
-                this.timePopup = true
-            }
-            else if(this.order.name !== "" && this.order.phone !== "" && this.order.phone.length == 11){
-                this.$router.push('/mb/input/confirm')
-            }
-            else{
-                this.is_show=true
-                this.inputPopup = true
-            }
-        },
-        searchPlace(){
-            let crc = this.reqData.crc
-            let reqData = {crc}
-            searchPlaceService.searchPlace(reqData)
-            .then((res)=>{
-                this.SET_PLACES_NAME(res.brands)
-                this.SET_PLACES_BRANDS(res.brands[0].places)
-                this.SET_BRANDS_NAME(this.resPlacename[0].name)
-                this.SET_BRANS_PLACE(this.resPlaceBrand[0].name)
-            })
-        },
-        selectEvent(e){
-            let idx = e.target.value
-            this.SET_PLACES_BRANDS(this.resPlacename[idx].places)
-            this.SET_BRANDS_NAME(this.resPlacename[idx].name)
-            this.SET_BRANS_PLACE(this.resPlaceBrand[idx].name)
-        },
-        popupEvent(){
-            this.is_show=false
-        },
-        
-    },
-    mounted() {
-        this.searchPlace()
-        
+    created() {
+        this.searchPlace() // 브랜드 & 장소 받아오기
     },
     computed:{
-        ...mapState('main',['reqData','resPlacename','resPlaceBrand','order','brandName','brandPlace','',]),
+        ...mapGetters('main', ['getBrands']) // 브랜드 & 장소
     },
-    
-    
+    methods: {
+        ...mapMutations('main',['SET_BRANDS', 'SET_REQ_DATA']), // 브랜드 세팅
+        move(){
+            if (!this.reqData.order.serviceTime) { this.is_show=true; this.timePopup = true } // 신청일 유효성 팝업
+            else if (!this.reqData.order.name || !this.reqData.order.phone ) { this.is_show=true; this.inputPopup = true } // 이름, 핸드폰 유효성 팝업
+            else if (this.reqData.order.phone && this.reqData.order.name ){
+                this.SET_REQ_DATA(this.reqData)
+                this.$router.push('/mb/input/confirm')  // cofirm 페이지로 이동
+            }
+        },
+        async searchPlace(){ // 브랜드 & 장소 받아오기
+            if (Array.isArray(this.getBrands) && this.getBrands.length == 0) { // 이미 받은 데이터는 axios post 하지 않기
+                let data = await searchPlaceService({})
+                this.SET_BRANDS(data.brands)
+            }
+            this.places = this.getBrands[0].places // places selectbox 데이터 세팅
+            this.reqData.order.brand = this.getBrands[0].name // brand 첫 데이터 세팅
+            this.reqData.order.place = this.getBrands[0].places[0].name // place 첫 데이터 세팅
+        },
+        changePlaces(e){ // place select box 변경하기
+            let idx = e.target.value // selec box value 값을 index로 설정
+            this.places = this.getBrands[idx].places // 설정된 index 값 place를 다시 places에 넣어준다
+            this.reqData.order.brand = this.getBrands[idx].name // 배열 인덱스에 맞는 첫 브랜드 데이터 세팅 (브랜드 데이터만 value를 index로 설정하여 v-model로 연결하지 않고 change일어날떄 변경된다.)
+            this.reqData.order.place = this.places[0].name // 배열 인덱스에 맞는 첫 장소 데이터 세팅
+        },
+        moveMain () { // 메인페이지로 이동하기
+            this.$router.push({name:'main'})
+        },
+        popupEvent(){ // 팝업 닫기
+            this.is_show=false
+            this.timePopup = false
+            this.inputPopup = false
+        },
+        
+    },
 }
 </script>
 <style scoped>

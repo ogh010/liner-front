@@ -44,8 +44,6 @@ const routes = [
     name:'winput_confirm',
     component:()=>import('../views/waiting_input_confirm.vue')
   },
-  
-  
 ]
 
 const router = new VueRouter({

@@ -1,15 +1,22 @@
 import axios from 'axios'
 
 export default async( url, cmd, reqData, option) => {
-    console.log(url,cmd,reqData);
-    let response 
-    await axios.post(url,{...reqData, cmd:cmd}, option)
+    
+    let resData
+    reqData = { ...reqData, cmd }
+    console.log("[요청]============>")
+    console.log(reqData)
+    
+    await axios.post(url, reqData, option)
     .then((res)=>{
-        console.log(res.data);
-        response = res.data
+        resData = res.data
     })
 
-    return response
+    console.log("[응답]============>")
+    console.log(resData)
+    console.log("[종료]============>")
+
+    return resData
 }
 
 

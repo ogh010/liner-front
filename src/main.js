@@ -5,8 +5,10 @@ import store from './store'
 import './common/css/css.css'
 import VueTimepicker from 'vue2-timepicker'
 import 'vue2-timepicker/dist/VueTimepicker.css'
+import utils from './utils'
 
 Vue.config.productionTip = false
+Vue.prototype.utils = utils
 
 new Vue({
   router,

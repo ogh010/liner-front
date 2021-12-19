@@ -6,57 +6,25 @@
             <div class="inner confirm">
                 <div class="confirmBox">
                     <table>
-                        <tr>
-                            <th>
-                                <p>신청일</p>
-                            </th>
-                            <td>
-                                <p>{{order.serviceTime}}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                <p>장소</p>
-                            </th>
-                            <td>
-                                <span>{{brandName}}</span>
-                                <span>{{brandPlace}}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                <p>이용시간</p>
-                            </th>
-                            <td>
-                                <span>{{order.beginTime}}</span>~ 
-                                <span>{{order.endTime}}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                <p>이름</p>
-                            </th>
-                            <td>
-                                <p>{{order.name}}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                <p>연락처</p>
-                            </th>
-                            <td>
-                                <p>{{phoneNumber(order.phone)}}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                <p>기타사항</p>
-                            </th>
-                            <td>
-                                <p v-if="order.desc == ''">기타사항없음</p>
-                                <p v-else>{{order.desc}}</p>
-                            </td>
-                        </tr>
+                        <template v-for="(title, index) in this.TableCardTitleArr">
+                            <TableCard :title="title" :key="index">
+                                <p v-if="index == 0" slot="content">{{getOrder.serviceTime}}</p> <!-- 신청일 테이블 카드 -->
+                                <template v-else-if="index == 1" slot="content"> <!-- 장소 테이블 카드 -->
+                                    <span>{{getOrder.brand}}</span>
+                                    <span>{{getOrder.place}}</span>
+                                </template>
+                                <template v-else-if="index == 2" slot="content"> <!-- 이용시간 테이블 카드 -->
+                                    <span>{{getOrder.beginTime}}</span>~ 
+                                    <span>{{getOrder.endTime}}</span>
+                                </template>
+                                <p v-else-if="index == 3" slot="content">{{getOrder.name}}</p> <!-- 이름 테이블 카드 -->
+                                <p v-else-if="index == 4" slot="content">{{phoneNumber(getOrder.phone)}}</p> <!-- 연락처 테이블 카드 -->
+                                <template v-else-if="index == 5" slot="content"> <!-- 기타사항 테이블 카드 -->
+                                    <p v-if="getOrder.desc == ''">기타사항없음</p>
+                                    <p v-else>{{getOrder.desc}}</p>
+                                </template>
+                            </TableCard>
+                        </template>
                     </table>
                 </div>
                 <div class="agreeBox">
@@ -66,7 +34,7 @@
                             <span class="detail">상세보기</span>
                         </div>
                         <div v-for="(item,index) in ch" :key="index">
-                            <input type="checkbox" name="chk" class="ch" :id="item.name" v-model="item.status" @click="clickCh()" /><label :for="item.name"><span></span>{{item.title}}</label>
+                            <input type="checkbox" name="chk" class="ch" :id="item.name" v-model="item.status" @change="clickCh()" /><label :for="item.name"><span></span>{{item.title}}</label>
                             <span class="detail">상세보기</span>
                         </div>
                     </div>
@@ -81,13 +49,14 @@
         </div>
 </template>
 <script>
-import { mapMutations, mapState } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 import banner from '../components/banner.vue'
 import lineService from '../service/lineService'
 import Popup from '../components/popup.vue'
+import TableCard from '../components/TableCard.vue'
 
 export default {
-    components:{banner,Popup},
+    components:{banner, Popup, TableCard},
     data() {
         return {
             allChecked:false,
@@ -108,22 +77,29 @@ export default {
                     status:false,
                     title:" [3] 개인정보 수집 및 이용동의"
                 }
-            ]
+            ],
+            TableCardTitleArr: ['신청일', '장소', '이용시간', '이름', '연락처', '기타사항']
+        }
+    },
+    computed: {
+        ...mapGetters('main',['getOrder', 'getReqData']),
+        phoneFormat () {
+            return this.utils.phoneNumber
         }
     },
     methods: {
         ...mapMutations('main',['SET_ORDER_CODE']),
-        checkall(){
+        checkall(){ // 전체 동의
             this.ch[0].status =! this.allChecked
             this.ch[1].status =! this.allChecked
             this.ch[2].status =! this.allChecked
-            console.log(this.allChecked);
         },
-        clickCh(){
-            console.log(this.ch[0].status , this.ch[1].status , this.ch[2].status )
+        clickCh(){ // 동의 하기
+            if (!this.ch[0].status || !this.ch[1].status || !this.ch[2].status) {  this.allChecked = false }
+            else {  this.allChecked = true }
         },
         async move(){
-            if(this.allChecked == true || this.ch1 ==true && this.ch2 ==true && this.ch3 ==true){
+            if(this.allChecked){
                 await this.serviceBtn()
                 await this.$router.push('/mb/input/confirm/agree')
             }
@@ -131,37 +107,13 @@ export default {
                 this.is_show = true
             }
         },
-        serviceBtn(){
-            let crc = this.reqData.crc
-            let serviceTime = this.order.serviceTime
-            let brand = this.brandName
-            let place = this.brandPlace
-            let beginTime = this.order.beginTime
-            let endTime = this.order.endTime
-            let name = this.order.name
-            let phone = this.order.phone
-            let desc = this.order.desc
-            let order = {serviceTime,brand,place,beginTime,endTime,name,phone,desc}
-            let reqData = {crc,order}
-            lineService.line(reqData)
-            .then((res)=>{
-                this.SET_ORDER_CODE(res.orderCode)
-            })
+        async serviceBtn(){
+            let data = await lineService.line(this.getReqData)
+            this.SET_ORDER_CODE(data.orderCode)
         },
         popupEvent(){
             this.is_show=false
-        },
-        phoneNumber(value){
-			value = value.replace(/[^0-9]/g, "");
-			return value.replace(
-				/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,
-				"$1-$2-$3"
-			);
-		},
-    },
-    computed: {
-        ...mapState('main',['reqData','order','brandName','brandPlace']),
-        
+        }
     },
 }
 </script>

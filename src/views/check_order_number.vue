@@ -11,8 +11,8 @@
                     </div>
                 </div>
                 <div class="btnBox">
-                    <button type="button" class="btn" @click="move">취소</button>
-                    <button type="button" class="btn" @click="submitBtn()">확인</button>
+                    <button type="button" class="btn" @click="moveMain()">취소</button>
+                    <button type="button" class="btn" @click="checkOrder()">확인</button>
                 </div>
             </div>
             <Popup v-show="is_show" @clickEvent="popupEvent">
@@ -21,13 +21,12 @@
         </div>
 </template>
 <script>
-import { mapState } from 'vuex';
 import banner from '../components/banner.vue'
 import axios from 'axios'
 import Popup from '../components/popup.vue'
 
 export default {
-    components:{banner,Popup},
+    components:{ banner, Popup },
     data() {
         return {
             orderNumber:"",
@@ -35,34 +34,20 @@ export default {
         }
     },
     methods: {
-        submitBtn(){
-            if(this.orderNumber == ""){
-                this.is_show = true
-                return
-            }
-            axios.get(`/be/v1/mb/check/line/service/${this.orderNumber}`)
-            .then((res)=>{
-                console.log(res);
-                if(res.data.resultCode == 0){
-                    this.$router.push({name:"check_confirm",params:{"order":res.data.order}})
-                }
-                else{
-                    this.is_show=true
-                }
-            })
-            
-            
+        async checkOrder(){ // 주문 확인
+            if(! this.orderNumber){ this.is_show = true; return } // 주문번호를 입력하지 않았을 경우 
+            const { data } = await axios.get(`/be/v1/mb/check/line/service/${this.orderNumber}`)
+            console.log(data)
+            if (data.resultCode != 0) { this.is_show=true; return } // 주문번호가 맞지 않을 경우
+            this.$router.push({name:"check_confirm",params:{"order": data.order}})
         },
-        move(){
+        moveMain(){ // 메인 이동
             this.$router.push({name:'main'})
         },
-        popupEvent(){
+        popupEvent(){ // 팝업 닫기
             this.is_show = false
         }
-    },
-    computed: {
-        ...mapState('main',['orderCode'])
-    },
+    }
 }
 </script>
 <style scoped>

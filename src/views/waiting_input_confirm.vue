@@ -1,75 +1,51 @@
 <template>
     <div class="content">
-            <banner>
-                <p slot="banner">LINE UP FOR YOU 알바 신청</p>
-            </banner>
-            <div class="inner confirm">
-                <div class="confirmBox">
-                    <table>
-                        <tr>
-                            <th>
-                                <p>이름</p>
-                            </th>
-                            <td>
-                                <p>{{worker.name}}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                <p>연락처</p>
-                            </th>
-                            <td>
-                                <p>{{worker.phone}}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                <p>계좌번호</p>
-                            </th>
-                            <td>
-                                <span>({{bankName}})</span>
-                                <span>{{bankInfo.account}}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                <p>카톡ID</p>
-                            </th>
-                            <td>
-                                <p>{{worker.kakaoId}}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                <p>인증번호</p>
-                            </th>
-                            <td>
-                                <p>{{authCode}}</p>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="btnBox">
-                    <button type="button" class="btnone" @click="move">메인화면 바로가기</button>
-                </div>
+        <banner>
+            <p slot="banner">LINE UP FOR YOU 알바 신청</p>
+        </banner>
+        <div class="inner confirm">
+            <div class="confirmBox">
+                <table>
+                    <template v-for="(title, index) in this.TableCardTitleArr">
+                        <TableCard :title="title" :key="index">
+                            <p v-if="index == 0" slot="content">{{getReqData.worker.name}}</p> <!-- 이름 테이블 카드 -->
+                            <p v-else-if="index == 1" slot="content">{{getReqData.worker.phone}}</p> <!-- 연락처 테이블 카드 -->
+                            <template v-else-if="index == 2" slot="content"> <!-- 계좌번호 테이블 카드 -->
+                                <span>({{getReqData.bankInfo.bank}})</span>
+                                <span>{{getReqData.bankInfo.account}}</span>
+                            </template>
+                            <p v-else-if="index == 3" slot="content">{{getReqData.worker.kakaoId}}</p> <!-- 카톡ID 테이블 카드 -->
+                            <p v-else-if="index == 4" slot="content">{{getAuthCode}}</p> <!-- 인증번호 테이블 카드 -->
+                        </TableCard>
+                    </template>
+                </table>
+            </div>
+            <div class="btnBox">
+                <button type="button" class="btnone" @click="move">메인화면 바로가기</button>
             </div>
         </div>
+    </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import banner from '../components/banner.vue'
-
+import TableCard from '../components/TableCard.vue'
 
 export default {
-    components: { banner },
-    methods: {
-        move(){
-            this.$router.push('/mb')
-        }
+    components: { banner, TableCard },
+    data() {
+        return {
+            TableCardTitleArr: ['이름', '연락처', '계좌번호', '카톡ID', '인증번호']
+        };
     },
     computed: {
-        ...mapState('main',['worker','bankInfo','authCode','bankName'])
+        ...mapGetters('worker', ['getReqData', 'getAuthCode'])
     },
+    methods: {
+        move(){
+            this.$router.push({'name':'main'}) // 메인 페이지 이동
+        }
+    }
 }
 </script>
 <style scoped>
