@@ -127,7 +127,7 @@ export default {
             else if (!this.reqData.order.name || !this.reqData.order.phone ) { this.is_show=true; this.inputPopup = true } // 이름, 핸드폰 유효성 팝업
             else if (this.reqData.order.phone && this.reqData.order.name ){
                 this.SET_REQ_DATA(this.reqData)
-                this.$router.push('/mb/input/confirm')  // cofirm 페이지로 이동
+                this.$router.push('/input/confirm')  // cofirm 페이지로 이동
             }
         },
         async searchPlace(){ // 브랜드 & 장소 받아오기

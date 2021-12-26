@@ -18,7 +18,7 @@
                                     <span>{{getOrder.endTime}}</span>
                                 </template>
                                 <p v-else-if="index == 3" slot="content">{{getOrder.name}}</p> <!-- 이름 테이블 카드 -->
-                                <p v-else-if="index == 4" slot="content">{{phoneNumber(getOrder.phone)}}</p> <!-- 연락처 테이블 카드 -->
+                                <p v-else-if="index == 4" slot="content">{{phoneFormat(getOrder.phone)}}</p> <!-- 연락처 테이블 카드 -->
                                 <template v-else-if="index == 5" slot="content"> <!-- 기타사항 테이블 카드 -->
                                     <p v-if="getOrder.desc == ''">기타사항없음</p>
                                     <p v-else>{{getOrder.desc}}</p>
@@ -101,7 +101,7 @@ export default {
         async move(){
             if(this.allChecked){
                 await this.serviceBtn()
-                await this.$router.push('/mb/input/confirm/agree')
+                await this.$router.push('/input/confirm/agree')
             }
             else{
                 this.is_show = true

@@ -107,7 +107,7 @@ export default {
 
                 this.SET_AUTH_CODE(data.authCode) // 인증번호 vuex 저장
                 this.SET_REQ_DATA(this.reqData) // axios post data vuex 저장
-                this.$router.push('/mb/winput/confirm') // 확인 페이지로 이동
+                this.$router.push('/winput/confirm') // 확인 페이지로 이동
             }
             else{
                 this.is_show = true

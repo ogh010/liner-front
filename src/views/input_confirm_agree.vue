@@ -56,7 +56,7 @@ export default {
     },
     methods: {
         move(){
-            this.$router.push('/mb')
+            this.$router.push('/')
         }
     },
 }

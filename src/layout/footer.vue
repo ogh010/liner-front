@@ -11,7 +11,7 @@
 export default {
     methods: {
         move() {
-            this.$router.push('/mb/winput')
+            this.$router.push('/winput')
         }
     },
 }

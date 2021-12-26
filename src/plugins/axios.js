@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+axios.defaults.baseURL = "http://3.34.129.142:25123"
+
 axios.interceptors.request.use(
     (reqData) =>{
         return reqData

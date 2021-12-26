@@ -47,7 +47,7 @@ export default {
     },
     methods: {
         moveMain(){ // 메인으로 이동하기
-            this.$router.push('/mb')
+            this.$router.push('/')
         },
         
     }

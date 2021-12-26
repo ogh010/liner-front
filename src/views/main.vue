@@ -20,7 +20,7 @@ export default {
     components: { banner },
     methods:{
         moveInput(){
-            this.$router.push('/mb/input')
+            this.$router.push('/input')
         }
     }
 }

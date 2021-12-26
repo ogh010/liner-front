@@ -9,7 +9,7 @@
                     <template v-for="(title, index) in this.TableCardTitleArr">
                         <TableCard :title="title" :key="index">
                             <p v-if="index == 0" slot="content">{{getReqData.worker.name}}</p> <!-- 이름 테이블 카드 -->
-                            <p v-else-if="index == 1" slot="content">{{getReqData.worker.phone}}</p> <!-- 연락처 테이블 카드 -->
+                            <p v-else-if="index == 1" slot="content">{{phoneFormat(getReqData.worker.phone)}}</p> <!-- 연락처 테이블 카드 -->
                             <template v-else-if="index == 2" slot="content"> <!-- 계좌번호 테이블 카드 -->
                                 <span>({{getReqData.bankInfo.bank}})</span>
                                 <span>{{getReqData.bankInfo.account}}</span>
@@ -39,7 +39,10 @@ export default {
         };
     },
     computed: {
-        ...mapGetters('worker', ['getReqData', 'getAuthCode'])
+        ...mapGetters('worker', ['getReqData', 'getAuthCode']),
+        phoneFormat () {
+            return this.utils.phoneNumber
+        }
     },
     methods: {
         move(){

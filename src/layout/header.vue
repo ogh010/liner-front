@@ -8,10 +8,10 @@
 export default {
     methods: {
         orderBtn() {
-            this.$router.push('/mb/check')
+            this.$router.push('/check')
         },
         moveMain(){
-            this.$router.push('/mb')
+            this.$router.push('/')
         }
     },
 }
