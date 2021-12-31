@@ -24,7 +24,8 @@ input[type=number]::-ms-clear{display: none;}
 */
 option{color:#656262;}
 /*button,label {cursor:pointer; background:none; border:none;}*/
-button {border:none; background-color:transparent; }
+button {border:none; background-color:transparent; color: #333;}
+a{color: #333;}
 i {font-style:normal; vertical-align: middle;}
 table {width:100%; border-collapse:collapse; border-spacing:0; empty-cells:show;}
 textarea {-webkit-appearance:none; border-radius:0; resize:none;}
