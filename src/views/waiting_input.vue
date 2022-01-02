@@ -18,16 +18,8 @@
                                 v-model="reqData.worker.phone" 
                                 oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                                 placeholder="-를 제외하고 입력해주세요">
-                        <!-- <span class="ico" v-bind:class="{'on':this.phone.length == 11}"></span> -->
                     </div>
                 </div>
-                <!-- <div class="inputBox call ch" v-bind:class="{'disabled':this.worker.phone.length !== 11}">
-                    <span class="label">인증번호</span>
-                    <div>
-                        <input type="number" disabled>
-                        <span class="ico"></span>
-                    </div>
-                </div> -->
                 <div class="inputBox">
                     <span class="label">계좌번호</span>
                     <div class="selectBox account">
@@ -49,12 +41,15 @@
                 </div>
                 <div class="btnBox">
                     <button type="button" class="btn" @click="moveMain()">취소</button>
-                    <button type="button" class="btn" @click="enrollWorker()">알바 신청</button>
+                    <button type="button" class="btn" @click="enrollPopUp()">알바 신청</button>
                 </div> 
             </div>
             <Popup v-show="is_show" @clickEvent="popupEvent">
                 <p slot="popupTxt">입력 정보를 다시 확인해주세요.</p>
             </Popup>
+            <DoubleBtnPopup @submit="submit()" @cancel="cancel()" v-show="is_submit_show" :title="title">
+                <p slot="popupTxt">알바 신청 후 관리자가 순차적으로 연락하니 참고 해주세요</p>
+            </DoubleBtnPopup>
         </div>
 </template>
 <script>
@@ -63,15 +58,18 @@ import {mapMutations, mapGetters} from 'vuex'
 import searchBank from '../service/searchBankService'
 import workerService from '../service/workerService'
 import Popup from '../components/popup.vue'
+import DoubleBtnPopup from '../components/doubleBtnPopup.vue'
 
 
 export default {
     components:{
-        banner,Popup
+        banner,Popup, DoubleBtnPopup
     },
     data() {
         return {
             is_show:false,
+            title: '신청하기',
+            is_submit_show: false,
             reqData: {
                 worker: {
                     name:"", // 알바생 이름
@@ -102,23 +100,30 @@ export default {
             this.reqData.bankInfo.bank = this.getBanks[0].name // 처음 뱅크 이름으로 세팅
         },
         async enrollWorker(){ // 알바 신청하기
+            let data = await workerService(this.reqData) // 알바 신청하기 axios post
+            this.SET_AUTH_CODE(data.authCode) // 인증번호 vuex 저장
+            this.SET_REQ_DATA(this.reqData) // axios post data vuex 저장
+            this.$router.push('/winput/confirm') // 확인 페이지로 이동
+        },
+        enrollPopUp () {
             if(this.reqData.worker.name
                 && this.reqData.worker.phone
                 && this.reqData.bankInfo.account
                 && this.reqData.worker.kakaoId){ // input 데이터 유효성 검사
-
-                let data = await workerService(this.reqData) // 알바 신청하기 axios post
-
-                this.SET_AUTH_CODE(data.authCode) // 인증번호 vuex 저장
-                this.SET_REQ_DATA(this.reqData) // axios post data vuex 저장
-                this.$router.push('/winput/confirm') // 확인 페이지로 이동
-            }
-            else{
+                this.is_submit_show = true
+            } else {
                 this.is_show = true
             }
         },
         moveMain(){ // 취소 버튼 클릭
             this.$router.push({'name':'main'})
+        },
+        submit () {
+            this.is_submit_show = false
+            this.enrollWorker();
+        },
+        cancel () {
+            this.is_submit_show = false
         },
         popupEvent(){ //팝업 화면 닫기 이벤트
             this.is_show = false

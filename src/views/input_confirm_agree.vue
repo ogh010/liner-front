@@ -28,7 +28,6 @@
                     </template>
                 </table>
             </div>
-            
             <div class="btnBox">
                 <button type="button" class="btnone" @click="move">메인화면 바로가기</button>
             </div>

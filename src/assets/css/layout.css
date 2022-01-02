@@ -117,8 +117,8 @@ padding: 16px;}
 .vue__time-picker .dropdown ul li:not([disabled]).active, .vue__time-picker .dropdown ul li:not([disabled]).active:hover, .vue__time-picker .dropdown ul li:not([disabled]).active:focus, .vue__time-picker-dropdown ul li:not([disabled]).active, .vue__time-picker-dropdown ul li:not([disabled]).active:hover, .vue__time-picker-dropdown ul li:not([disabled]).active:focus{background:#E4B95D !important ;}
 .dropdown{width: 100% !important;}
 .select-list{width: 100% !important;}
-.minutes{display: none;}
-.minutes li:nth-child(2).active{}
+/* .minutes{display: none;} */
+/* .minutes li:nth-child(2).active{} */
 .vue__time-picker input.display-time{border-color:transparent !important; outline-color:transparent !important; border-top: 1px solid #ffde98 !important;}
 
 

@@ -7,7 +7,7 @@
             <div class="inner main">
                 <div class="service"></div>
                 <div class="btnBox">
-                    <button type="button" class="btnone" @click="moveInput()">라인업포유 서비스 이용하기</button>
+                    <button type="button" class="btnone" @click="moveServicePage()">라인업포유 서비스 이용하기</button>
                 </div>
             </div>
         </div>
@@ -19,8 +19,8 @@ import banner from '../components/banner.vue'
 export default {
     components: { banner },
     methods:{
-        moveInput(){
-            this.$router.push('/input')
+        moveServicePage(){ // 구매하기 작성 페이지로 이동
+            this.$router.push({name: 'input'})
         }
     }
 }

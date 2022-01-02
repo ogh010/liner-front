@@ -12,8 +12,7 @@
                             <p v-else-if="index == 1" slot="content">{{order.orderTime}}</p> <!-- 주문시간 테이블 카드 -->
                             <p v-else-if="index == 2" slot="content">{{order.place}}</p> <!-- 주문시간 테이블 카드 -->
                             <template v-else-if="index == 3" slot="content"> <!-- 계좌번호 테이블 카드 -->
-                                <span>{{order.beginTime}}</span>~
-                                <span>{{order.endTime}}</span>
+                                <span>{{order.beginTime}}</span>~<span>{{order.endTime}}</span>
                             </template>
                             <p v-else-if="index == 4" slot="content">{{order.name}}</p> <!-- 카톡ID 테이블 카드 -->
                             <p v-else-if="index == 5" slot="content">{{phoneFormat(order.phone)}}</p> <!-- 인증번호 테이블 카드 -->
