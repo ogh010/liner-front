@@ -13,7 +13,11 @@
                 <div class="inputBox call">
                     <span class="label">연락처</span>
                     <div>
-                        <input type="text" v-model="reqData.worker.phone" placeholder="-를 제외하고 입력해주세요">
+                        <input type="number" 
+                                maxlength="11" 
+                                v-model="reqData.worker.phone" 
+                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                placeholder="-를 제외하고 입력해주세요">
                         <!-- <span class="ico" v-bind:class="{'on':this.phone.length == 11}"></span> -->
                     </div>
                 </div>

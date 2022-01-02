@@ -56,7 +56,11 @@
             <div class="inputBox call">
                 <span class="label">연락처</span>
                 <div>
-                    <input type="text" v-model="reqData.order.phone" placeholder="-를 제외하고 입력해주세요">
+                    <input type="number" 
+                    maxlength="11" 
+                    v-model="reqData.order.phone" 
+                    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                    placeholder="-를 제외하고 입력해주세요">
                     <!-- <span class="ico" v-bind:class="{'on':this.phone.length == 11}"></span> -->
                 </div>
             </div>
@@ -90,6 +94,7 @@ import banner from '../components/banner.vue'
 import searchPlaceService from '../service/searchPlaceService'
 import VueTimepicker from 'vue2-timepicker/src/vue-timepicker.vue'
 import Popup from '../components/popup.vue'
+import moment from 'moment'
 
 export default {
     components:{ banner, VueTimepicker, Popup},
@@ -102,7 +107,7 @@ export default {
             places: [],
             reqData: {
                 order : {
-                    serviceTime: new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate(), // 서비스 신청일 
+                    serviceTime: moment().format('YYYY-MM-DD'), // 서비스 신청일 
                     brand: '',
                     place: '',
                     beginTime:'18:00',
