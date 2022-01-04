@@ -11,7 +11,7 @@
 export default {
     methods: {
         move() {
-             if (this.$route.path != '/winput') { this.$router.push('/winput') }
+             if (this.$route.path != '/winput') { this.$router.replace('/winput') }
         }
     },
 }

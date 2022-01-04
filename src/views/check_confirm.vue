@@ -9,7 +9,7 @@
                     <template v-for="(title, index) in this.TableCardTitleArr">
                         <TableCard :title="title" :key="index">
                             <p v-if="index == 0" slot="content">{{order.orderCode}}</p> <!-- 주문번호 테이블 카드 -->
-                            <p v-else-if="index == 1" slot="content">{{order.orderTime}}</p> <!-- 주문시간 테이블 카드 -->
+                            <p v-else-if="index == 1" slot="content">{{order.serviceTime}}</p> <!-- 주문시간 테이블 카드 -->
                             <p v-else-if="index == 2" slot="content">{{order.place}}</p> <!-- 주문시간 테이블 카드 -->
                             <template v-else-if="index == 3" slot="content"> <!-- 계좌번호 테이블 카드 -->
                                 <span>{{order.beginTime}}</span>~<span>{{order.endTime}}</span>
