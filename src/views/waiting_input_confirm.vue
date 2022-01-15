@@ -39,10 +39,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters('worker', ['getReqData', 'getAuthCode']),
-        phoneFormat () {
-            return this.utils.phoneNumber
-        }
+        ...mapGetters('worker', ['getReqData', 'getAuthCode'])
     },
     methods: {
         move(){

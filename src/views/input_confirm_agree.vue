@@ -9,18 +9,19 @@
                     <template v-for="(title, index) in this.TableCardTitleArr">
                         <TableCard :title="title" :key="index">
                             <p v-if="index == 0" slot="content">{{getOrderCode}}</p>
-                            <p v-else-if="index == 1" slot="content">{{getOrder.serviceTime}}</p> <!-- 신청일 테이블 카드 -->
-                            <template v-else-if="index == 2" slot="content"> <!-- 장소 테이블 카드 -->
+                            <p v-if="index == 1" slot="content">{{getOrder.amount.toLocaleString()}} 원</p>
+                            <p v-else-if="index == 2" slot="content">{{getOrder.serviceTime}}</p> <!-- 신청일 테이블 카드 -->
+                            <template v-else-if="index == 3" slot="content"> <!-- 장소 테이블 카드 -->
                                 <span>{{getOrder.brand}}</span>
                                 <span>{{getOrder.place}}</span>
                             </template>
-                            <template v-else-if="index == 3" slot="content"> <!-- 이용시간 테이블 카드 -->
+                            <template v-else-if="index == 4" slot="content"> <!-- 이용시간 테이블 카드 -->
                                 <span>{{getOrder.beginTime}}</span>~ 
                                 <span>{{getOrder.endTime}}</span>
                             </template>
-                            <p v-else-if="index == 4" slot="content">{{getOrder.name}}</p> <!-- 이름 테이블 카드 -->
-                            <p v-else-if="index == 5" slot="content">{{phoneFormat(getOrder.phone)}}</p> <!-- 연락처 테이블 카드 -->
-                            <template v-else-if="index == 6" slot="content"> <!-- 기타사항 테이블 카드 -->
+                            <p v-else-if="index == 5" slot="content">{{getOrder.name}}</p> <!-- 이름 테이블 카드 -->
+                            <p v-else-if="index == 6" slot="content">{{phoneFormat(getOrder.phone)}}</p> <!-- 연락처 테이블 카드 -->
+                            <template v-else-if="index == 7" slot="content"> <!-- 기타사항 테이블 카드 -->
                                 <p v-if="getOrder.desc == ''">기타사항없음</p>
                                 <p v-else>{{getOrder.desc}}</p>
                             </template>
@@ -48,10 +49,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters('main',['getOrder', 'getOrderCode']),
-        phoneFormat () {
-            return this.utils.phoneNumber
-        }
+        ...mapGetters('main',['getOrder', 'getOrderCode'])
     },
     methods: {
         move(){

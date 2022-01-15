@@ -39,11 +39,6 @@ export default {
             order: this.$route.params.order
         };
     },
-    computed: {
-        phoneFormat () {
-            return this.utils.phoneNumber
-        }
-    },
     methods: {
         moveMain(){ // 메인으로 이동하기
             this.$router.push('/')

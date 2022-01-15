@@ -1,11 +1,17 @@
 @charset "utf-8";
 
-html{width: 100%;}
+html{width: 100%;  font-family: 'GowunBatang-Regular';}
 /* ::-webkit-calendar-picker-indicator {
     display: none;
 } */
+@font-face {
+    font-family: 'GowunBatang-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunBatang-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
-button {border:none; background-color:transparent; color: #333;}
+button {border:none; background-color:transparent; color: #333;  font-family: 'GowunBatang-Regular';                                                                 }
 a{color: #333;}
 
 .wrap{overflow-x: hidden; width: 100%;}
